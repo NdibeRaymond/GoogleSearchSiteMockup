@@ -15,6 +15,15 @@ html,body {
 
 }
 
+a {
+  color: blue;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 .wrapper_div {
   flex: 1 0 auto;
 }
@@ -359,7 +368,7 @@ footer {
   padding-left: 11%;
   padding-top: 8px;
   border-bottom: 1px solid #dddddd;
-  height: 2rem;
+  height: 1.8rem;
 }
 
 .search_result .nav_2 a {
@@ -464,8 +473,104 @@ align-items: center;
   margin-right: 10px;
 }
 
-.boxshadow {
-  -webkit-box-shadow: 1px 1px 9px 2px rgba(204,204,204,1);
-  -moz-box-shadow: 1px 1px 9px 2px rgba(204,204,204,1);
-  box-shadow: 1px 1px 9px 2px rgba(204,204,204,1);
+.search_result .all {
+  display: flex;
+  justify-content: space-around;
+}
+
+.search_result .result_stat{
+  margin-left: 11.5%;
+  color: grey;
+}
+
+.search_result .result_stat .h3 {
+  order: 1;
+  font-weight:400;
+}
+
+.search_result main {
+  width: 100%;
+}
+
+.search_result .all .wikipedia {
+  width: 30%;
+  order: 3;
+  border: 1px solid #cccccc;
+  border-radius: 10px;
+}
+
+.search_result .all .results {
+  margin-left: 7%;
+  width: 45%;
+  order: 2;
+}
+
+.search_result .all .wikipedia .divider {
+  width: 100%;
+  border-top: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
+  border-left: 0;
+  border-right: 0;
+  padding: 1em 0;
+}
+
+.search_result .all .wikipedia .divider span {
+  margin-left: 1em;
+}
+
+.search_result .all .wikipedia .divider a {
+  margin: 0 1em;
+}
+
+
+
+.search_result .all .wikipedia h2 {
+  margin: 2em 1em;
+}
+
+.search_result .all .wikipedia p {
+  line-height: 1.8em;
+  margin: 1em;
+}
+
+
+.search_result .all .results .result {
+ margin: 2em 0;
+}
+
+.search_result .all .results .result .a h2 {
+  margin: 0.3em 0;
+}
+
+.search_result .all .results .result .a_1 {
+ color:grey;
+ text-decoration: none;
+}
+
+.search_result .all .results .result .body {
+  margin-top: 0;
+  line-height: 1.8em;
+}
+
+.search_result .related {
+  margin-left: 11.5%
+}
+
+.search_result .related h2 {
+
+}
+
+.search_result .related .links {
+  height: 8em;
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+}
+
+.search_result .related .links a {
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+  margin-right: 2em;
 }
