@@ -1,0 +1,293 @@
+/* @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap'); */
+
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.8rem;
+  font-weight: light;
+  margin: 0;
+  min-height: 100%;
+}
+
+html,body {
+  height: 100%;
+
+}
+
+.wrapper_div {
+  flex: 1 0 auto;
+}
+
+.profile {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+.g_suit {
+  color:gray;
+}
+
+.assistant {
+  width: 20px;
+  height: 20px;
+}
+
+.nav__div-right .a_2 {
+  width: 20px;
+  height: 20px;
+}
+
+.nav {
+  display: flex;
+  justify-content:flex-end;
+  align-items: center;
+  padding:0 1.2rem;
+}
+
+.nav .a {
+  color: black;
+  text-decoration: none;
+}
+
+.nav .a:hover,.nav .a:focus {
+  color: gray;
+  text-decoration: underline;
+}
+
+.nav .a,.nav .btn {
+  padding: 0.5rem 0.6rem 1rem 0.6rem;
+}
+
+.nav .btn {
+  background-color: white;
+  border-width: 0;
+  color: grey;
+}
+
+.nav__div-right, .nav__div-left {
+  display: flex;
+  align-items: center;
+}
+
+.nav__div-right .a_1, .nav__div-left .a_1, .nav__div-left .btn {
+  display: none;
+}
+
+main {
+  width: 100%;
+}
+
+
+.main__img {
+  display: block;
+  margin: 0 auto;
+  margin-top: 7%;
+}
+
+.search_div {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.search_div div {
+  display: flex;
+  max-width: 655px;
+  width: 46%;
+  height: 2.7rem;
+  border-radius: 50px;
+  border: 1px solid #cccccc;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.main__input {
+  outline: none;
+  border-width: 0;
+  width: 90%;
+  font-size: 1rem;
+
+}
+
+.search_icon {
+  margin-left: 10px;
+  color: #9AA0A6;
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+  fill: currentColor;
+  height: 24px;
+  line-height: 24px;
+  position: relative;
+  width: 24px;
+}
+
+.search_icon svg {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.mic {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.boxshadow {
+  -webkit-box-shadow: 1px 1px 9px 2px rgba(204,204,204,1);
+  -moz-box-shadow: 1px 1px 9px 2px rgba(204,204,204,1);
+  box-shadow: 1px 1px 9px 2px rgba(204,204,204,1);
+}
+
+.button__div {
+  display: flex;
+  justify-content: center;
+}
+
+.button__div .button {
+  display: nline-block;
+  width: 10rem;
+  height: 2rem;
+  margin:2rem 0.5rem;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  border-width: 0;
+}
+
+.button__div .button:hover {
+  border: 1px solid #cccccc;
+}
+
+.main__section1__div-2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+}
+.main__section1__div-2 img {
+  width: 50px;
+  height: 50px;
+}
+
+.main__section1__div-2 h3 {
+  font-weight: 400;
+}
+
+.main__section1__div-2 a{
+  text-decoration: none;
+  color: blue;
+}
+
+.main__section1__div-2 a:hover {
+  text-decoration: underline;
+}
+
+.main__section2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main__section2 h3 {
+  font-weight: 400;
+}
+
+
+.main__section2 a {
+  text-decoration: none;
+  color: blue;
+}
+
+.main__section2 a:hover {
+  text-decoration: underline;
+}
+
+footer {
+  color: #5f6368;
+  width: 100%;
+  flex-shrink: 0;
+  background-color: #f2f2f2;
+}
+
+.footer-top {
+  font-size: 1rem;
+  display: flex;
+  justify-content: flex-start;
+  border: 1px solid #cccccc;
+  padding: 0.8rem 2rem;
+}
+
+.footer-bottom {
+  padding: 0.8rem 2rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer-bottom a {
+  color:#5f6368;
+  text-decoration: none;
+}
+
+.footer-bottom a:hover,.footer-bottom a:focus {
+  text-decoration: underline;
+}
+
+
+
+
+
+@media only screen and (max-width: 768px) {
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    text-transform: uppercase;
+    padding: 0;
+  }
+
+  .nav__div-right .a_1, .nav__div-left .a_1, .nav__div-left .btn {
+    display: inline-block;
+  }
+
+  .nav__div-left .a_2 {
+    display: none;
+  }
+
+  .nav .a:hover,.nav .a:focus {
+    color: blue;
+    text-decoration: none;
+    border-bottom: 2px solid blue;
+  }
+
+  .button__div .button {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 500px) {
+
+.search_div div {
+  width: 70%;
+}
+
+}
+
+
+@media only screen and (min-width: 360px) {
+
+.search_div div {
+  width: 90%;
+}
+
+}
+
+
+@media only screen and (max-width: 360px) {
+
+.search_div div {
+  width: 90%;
+}
+
+}
