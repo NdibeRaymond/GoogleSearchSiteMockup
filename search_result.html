@@ -31,7 +31,7 @@
 
       </nav>
       <nav class="nav_2">
-        <a class="a_1" href="#">
+        <a class="a_1 all_button" href="#">
           <span class="search_icon" style="height:16px;width:16px">
             <svg focusable="false" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M10 2v2a6 6 0 0 1 6 6h2a8 8 0 0 0-8-8z" fill="#34A853"></path>
@@ -117,7 +117,56 @@
           <a class="a_8" href="#">lorem <span>j ipsum</span></a>
         </div>
       </section>
+
+      <section class="pagination">
+        <a href="#">1</a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a href="#">5</a>
+        <a href="#">6</a>
+        <a href="#">7</a>
+        <a href="#">8</a>
+        <a href="#">9</a>
+        <a href="#">10</a>
+        <a class="next" href="#">Next</a>
+      </section>
     </main>
 
+    <footer>
+      <div class="footer-top">
+        <span class="country">Nigeria</span>
+        <span class="seperator">|</span>
+        <span class="large_dot"></span>
+        <h4><span class="city">Awka South</span> - Based on your past activity - Use precise location - Learn more</h4>
+      </div>
+      <div class="footer-bottom">
+          <a class="a_1" href="#">Help</a>
+          <a class="a_2" href="#">Send feedback</a>
+          <a class="a_3" href="#">Privacy</a>
+          <a class="a_4" href="#">Terms</a>
+        <!-- <div class="footer-bottom__group2">
+          <a class="a_1" href="#">Privacy</a>
+          &nbsp;
+          &nbsp;
+          &nbsp;
+          <a class="a_2" href="#">Terms</a>
+          &nbsp;
+          &nbsp;
+          &nbsp;
+          <a class="a_3" href="#">Settings</a>
+        </div> -->
+      </div>
+
+    </footer>
+
+  <script type="text/javascript">
+    function initialFocus(){
+      let all_button  = document.querySelector(".all_button");
+      console.log(all_button)
+    }
+
+    initialFocus()
+  </script>
   </body>
 </html>

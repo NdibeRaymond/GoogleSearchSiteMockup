@@ -1,19 +1,42 @@
 /* @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap'); */
 
 body {
-  display: flex;
-  flex-direction: column;
   font-family: 'Roboto', sans-serif;
   font-size: 0.8rem;
   font-weight: light;
   margin: 0;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
   min-height: 100%;
+}
+
+.search_result {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 html,body {
   height: 100%;
 
 }
+
+/* ########################### HELPERS ######################### */
+.static {
+  position: static;
+}
+
+.absolute {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  z-index: 5;
+  background-color: white;
+}
+/* ################################################################## */
 
 a {
   color: blue;
@@ -145,6 +168,18 @@ main {
   margin-right: 10px;
 }
 
+.suggestion a {
+ text-decoration: none;
+ font-size: 1rem;
+ line-height: 1.5em;
+}
+
+.suggestion a:hover {
+background-color: #cccccc;
+}
+
+
+
 .boxshadow {
   -webkit-box-shadow: 1px 1px 9px 2px rgba(204,204,204,1);
   -moz-box-shadow: 1px 1px 9px 2px rgba(204,204,204,1);
@@ -240,7 +275,10 @@ footer {
   font-size: 1rem;
   display: flex;
   justify-content: flex-start;
-  border: 1px solid #cccccc;
+  border-top: 1px solid #cccccc;
+  border-bottom : 1px solid #cccccc;
+  border-left: 0;
+  border-right: 0;
   padding: 0.8rem 2rem;
 }
 
@@ -294,6 +332,14 @@ footer {
     display: none;
   }
 
+    .main__section1{
+     display: block;
+     width: 100%;
+    }
+
+   .suggestion {
+
+   }
 
    .main__section1__div-2.desktop {
     display: none;
@@ -448,7 +494,8 @@ align-items: center;
 .search_result .main__input {
   outline: none;
   border-width: 0;
-  border-radius: 50px;
+  /* border-radius: 50px; */
+  margin-left: 10px;
   width: 90%;
   font-size: 1rem;
 
@@ -573,4 +620,75 @@ align-items: center;
   margin-top: 0.3em;
   margin-bottom: 0.3em;
   margin-right: 2em;
+}
+
+.search_result .related .links a span {
+  font-weight: bold;
+}
+
+.search_result .pagination {
+  margin: 5em 0 2.5em 0;
+  margin-left: 23%;
+
+}
+
+.search_result .pagination a {
+  padding: 0 0.4em;
+  font-size: 0.9rem;
+
+}
+
+.search_result .pagination a.next {
+  padding: 0 2.9em;
+}
+
+.search_result .footer-top {
+  padding: 0.8rem 0;
+  padding-left: 11.5%;
+  display: flex;
+  align-items: center;
+}
+
+.search_result .footer-top .country {
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.search_result .footer-top .seperator {
+  margin: 0 15px;
+  color: #cccccc;
+}
+
+.search_result .footer-top .large_dot {
+  width: 10px;
+  height: 10px;
+  border-width: 0;
+  border-radius: 50%;
+  background-color: grey;
+  margin: 0 4px 0 4px;
+  margin-top: 2px;
+}
+
+.search_result .footer-top .city {
+  font-weight: bold;
+}
+
+.search_result .footer-top h4 {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 400;
+
+}
+
+.search_result .footer-bottom {
+  padding: 0.8rem 0;
+  padding-left: 11.5%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.search_result .footer-bottom a {
+  margin-right: 2.2em;
+  font-size: 0.9rem;
 }
