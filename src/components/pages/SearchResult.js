@@ -20,6 +20,7 @@ class SearchResult extends Component{
       SE:new SearchEngine(),
       query_result:[],
       suggestions: [],
+      header:{},
       suggestion_divs:[],
       main_input: {},
     }
@@ -32,12 +33,30 @@ class SearchResult extends Component{
     this.setState({
       query:this.props.location.search.split("=")[1],
       suggestion_divs: document.querySelectorAll(".search_suggestions"),
-      main_input: document.querySelector(".main__input")
+      main_input: document.querySelector(".main__input"),
+      header:document.querySelector(".header")
     },()=>{
       console.log(this.state.suggestion_divs);
       this.state.suggestion_divs.forEach(div=>{div.classList.add("search_static")});
+      this.headerPlacement(this.state.header);
       this.search(this.state.query)
     })
+  }
+
+  headerPlacement=(header)=>{
+    let observer = new IntersectionObserver(entries=>{
+      if(entries[0].target.clientWidth > 720){
+      if(entries[0].isIntersecting === true){
+        document.querySelector("#nav-desktop").classList.remove("absoluteNav");
+      }
+      else{
+        // console.log("is not intersectionggggsggksldk");
+        document.querySelector("#nav-desktop").classList.add("absoluteNav");
+      }
+    }
+    },{threshold:[0]});
+
+    observer.observe(header);
   }
 
   defaultFocus=()=>{
@@ -188,7 +207,7 @@ class SearchResult extends Component{
     return (
     <div className="search_result">
       <div className="wrapper_div">
-        <header>
+        <header className="header">
            <nav className="nav" id="nav-desktop">
              <div className="nav__div-left">
                <img className="main__img" src={small_logo} alt="google"/>
