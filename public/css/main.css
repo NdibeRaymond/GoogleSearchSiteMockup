@@ -444,6 +444,10 @@ footer {
   margin-left: 5em;
 }
 
+.search_result .nav_2 a {
+  outline: none;
+}
+
 .search_result .nav_2 a:hover {
   color: blue;
 }

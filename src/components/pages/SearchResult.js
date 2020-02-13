@@ -1,6 +1,10 @@
 import React,{Component} from 'react';
 import {withFormik} from 'formik';
-import * as Yup from 'yup';
+import {SearchEngine} from "../assets/js/SearchEngine.js";
+
+import {connect} from 'react-redux';
+import * as dataActions from '../../store/actions/dataActions';
+
 
 import raymond from "../assets/images/raymond.jpg";
 import small_logo from "../assets/images/googlelogo_color_92x30dp.png";
@@ -10,10 +14,87 @@ import mic from "../assets/images/googlemic_color_24dp.png"
 
 
 class SearchResult extends Component{
-  constructor(){
-    super();
-    this.state={}
+  constructor(props){
+    super(props);
+    this.state={
+      SE:new SearchEngine(),
+      query_result:[]
+    }
   }
+
+  componentDidMount(){
+    this.defaultFocus();
+    this.setState({query:this.props.location.search.split("=")[1]},()=>{
+      this.search(this.state.query)
+    })
+  }
+
+  defaultFocus=()=>{
+    document.querySelector(".all_button").focus()
+  }
+
+  search=(query)=>{
+    let query_result  = this.state.SE.textSearch(this.props.data.all_data,query,["url","title","body"],true).splice(0,5);
+
+    this.setState({
+      query_result
+    })
+  }
+
+  cleanUpAndHandleBlur=(e)=>{
+
+    document.querySelector(".search_div__div").classList.remove("boxshadow");
+    document.querySelector(".main__input").blur();
+    this.state.suggestion_div.classList.remove("absolute");
+    this.state.suggestion_div.classList.add("static");
+    this.state.suggestion_div.setAttribute("id","");
+
+    this.setState({
+      suggestions:[]
+    })
+
+    this.props.handleBlur(e)
+  }
+
+  suggestAndHandleChange=(e)=>{
+    console.log(e.target.value);
+    let results = [];
+    if(e.target.value.length >= 5){
+      results = this.suggest(e.target.value);
+    }
+    this.props.handleChange(e);
+  }
+
+  suggest=(value)=>{
+   let suggestions  = this.state.SE.textSearch(this.props.data.all_data,value,["url","title","body"],true);
+
+   this.setState({
+     suggestions
+   },()=>{
+     console.log(this.state.suggestions);
+     this.suggestionUI(this.state.suggestions)
+   })
+  }
+
+  resultComponents=()=>this.state.query_result.map((result,key)=>
+            <div className="result" key={key}>
+              <a className="a a_1" href="#">{result.url}</a>
+              <a className="a a_2" href="#"><h2>{
+                result.title.length < 50 ?
+                result.title
+                :
+                result.title.split("").splice(1,50).join("")+" ..."
+              }</h2></a>
+              <p className="body">
+                {
+                  result.body.length < 120 ?
+                  result.body
+                  :
+                  result.body.split("").slice(0,120).join("")+" ..."
+                }
+              </p>
+            </div>)
+
 
   render(){
     return (
@@ -23,9 +104,10 @@ class SearchResult extends Component{
            <nav className="nav">
              <div className="nav__div-left">
                <img className="main__img" src={small_logo} alt="google"/>
-               <form className="search_div">
+               <form className="search_div" name="search" noValidate="noValidate" onSubmit={this.props.handleSubmit} autocomplete="off">
        					<div className="search_div__div">
-       						<input type="text" className="main__input" name="" value="" aria-label="input your search term"/>
+       						<input type="text" className="main__input" name="search" value={this.props.values["search"]} onChange={this.props.handleChange}
+                    onBlur={this.props.handleBlur} aria-label="input your search term"/>
        						<img className="mic" src={mic} alt="speech input"/>
                    <span className="search_icon">
        							<svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -85,32 +167,7 @@ class SearchResult extends Component{
              </aside>
 
              <section className="results">
-               <div className="result">
-                 <a className="a a_1" href="#">lorem.ipsum.dolor.com</a>
-                 <a className="a a_2" href="#"><h2>Lorem ipsum dolor</h2></a>
-                 <p className="body">
-                   Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                   tempor incididunt ut labore et dolore magna aliqua.
-                 </p>
-               </div>
-
-               <div className="result">
-                 <a className="a a_1" href="#">lorem.ipsum.dolor.com</a>
-                 <a className="a a_2" href="#"><h2>Lorem ipsum dolor</h2></a>
-                 <p className="body">
-                   Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                   tempor incididunt ut labore et dolore magna aliqua.
-                 </p>
-               </div>
-
-               <div className="result">
-                 <a className="a a_1" href="#">lorem.ipsum.dolor.com</a>
-                 <a className="a a_2" href="#"><h2>Lorem ipsum dolor</h2></a>
-                 <p className="body">
-                   Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                   tempor incididunt ut labore et dolore magna aliqua.
-                 </p>
-               </div>
+               {this.resultComponents()}
              </section>
 
            </div>
@@ -166,21 +223,33 @@ class SearchResult extends Component{
 }
 
 
-export default withFormik({
+const mapStateToProps = state =>{
+  return{
+    data:state.data
+  }
+}
+
+const mapDispatchToProps= dispatch =>{
+  return{
+    get_all_data:()=>{
+      dispatch(dataActions.getAllData());
+    }
+  }
+}
+
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withFormik({
   mapPropsToValue: ()=>({
     name:'',
     email:'',
     phone:'',
     message:'',
   }),
-  validationSchema: Yup.object().shape({
-    name:Yup.string().min(3,"come on!, you name is smaller than three characters").required("you must give us your name"),
-    email:Yup.string().email("You need to give us a valid email").required("you need to give your email"),
-    phone:Yup.string().min(11,"your phone number is not complete").max(15,"your phone number is too long").required("we need a phone number to reach you by"),
-    message:Yup.string().min(500,"you need to provide us with more details").required("This message field is required")
-  }),
   handleSubmit:(values,{setSubmitting}) =>{
     console.log("you've submitted the form. this are the submitted values: ",JSON.stringify(values));
-    alert("you have submitted the form");
+    window.location.href = `${window.origin}/search?search=${values.search}`;
   }
-})(SearchResult);
+})(SearchResult));

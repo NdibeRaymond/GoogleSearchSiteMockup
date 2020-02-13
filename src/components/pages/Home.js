@@ -20,6 +20,7 @@ class Home extends Component {
       SE: new SearchEngine(),
       suggestions: [],
       suggestion_div: {},
+      main_input:{}
     }
   }
 
@@ -44,27 +45,66 @@ class Home extends Component {
   componentDidMount(){
     this.inputFocusDetect();
     // this.suggestionUI();
+    this.mainInputBlurDetect();
     this.setState(
       {
-        suggestion_div: document.querySelector(".suggestions")
+        suggestion_div: document.querySelector(".suggestions"),
+        main_input: document.querySelector(".main__input")
+      },()=>{
+        this.autoFocus(this.state.main_input);
       }
     )
   }
 
-  cleanUpAndHandleBlur=(e)=>{
-
-    document.querySelector(".search_div__div").classList.remove("boxshadow");
-    document.querySelector(".main__input").blur();
-    this.state.suggestion_div.classList.remove("absolute");
-    this.state.suggestion_div.classList.add("static");
-    this.state.suggestion_div.setAttribute("id","");
-
-    this.setState({
-      suggestions:[]
-    })
-
-    this.props.handleBlur(e)
+  autoFocus=(main_input)=>{
+    main_input.focus()
   }
+
+  mainInputBlurDetect=()=>{
+    document.addEventListener("click",(e)=>{
+      console.log(e.target.href);
+      if(e.target.href){
+        if(e.target.href !== `${window.origin}/#`){
+          return
+        }
+      }
+
+      if(e.target !== this.state.main_input){
+        document.querySelector(".search_div__div").classList.remove("boxshadow");
+        document.querySelector(".main__input").blur();
+        this.state.suggestion_div.classList.remove("absolute");
+        this.state.suggestion_div.classList.add("static");
+        this.state.suggestion_div.setAttribute("id","");
+
+        this.setState({
+          suggestions:[]
+        })
+      }
+
+    })
+  }
+
+
+
+  searchForSuggestion=(e)=>{
+    window.location = `${window.origin}/search?search=${e.target.innerHTML.split("").splice(0,5).join("")}`
+  }
+
+  // cleanUpAndHandleBlur=(e)=>{
+  //
+  //   document.querySelector(".search_div__div").classList.remove("boxshadow");
+  //   document.querySelector(".main__input").blur();
+  //   this.state.suggestion_div.classList.remove("absolute");
+  //   this.state.suggestion_div.classList.add("static");
+  //   this.state.suggestion_div.setAttribute("id","");
+  //
+  //   this.setState({
+  //     suggestions:[]
+  //   })
+  //
+  //   this.props.handleBlur(e)
+  //
+  // }
 
   suggestionUI=(result)=>{
 
@@ -153,7 +193,7 @@ render(){
 
       <img className="main__img" src={big_logo} alt="google"/>
 
-      <form className="search_div" name="search" noValidate="noValidate" onSubmit={this.props.handleSubmit}>
+      <form className="search_div" name="search" noValidate="noValidate" onSubmit={this.props.handleSubmit} autoComplete="off">
         <div className="search_div__div">
           <span className="search_icon">
             <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -161,7 +201,7 @@ render(){
             </svg>
           </span>
           <input type="text" className="main__input" name="search" value={this.props.values["search"]} onChange={this.suggestAndHandleChange}
-            onBlur={this.cleanUpAndHandleBlur} aria-label="input your search term"/>
+             aria-label="input your search term"/>
           <img className="mic" src={mic} alt="speech input"/>
         </div>
       </form>
@@ -169,7 +209,9 @@ render(){
       <div className="main__section1">
         <div className="suggestions">
           {this.state.suggestions.splice(1,10).map((suggestion,key)=>
-          <div className="suggestion" key={key}><a href="#">{suggestion.title}</a></div>)}
+          <div className="suggestion" key={key}>
+          <a className="search_suggestion" onClick={this.searchForSuggestion} href="#">{suggestion.title}</a>
+          </div>)}
 
         <div className="button__div">
           <button type="button" className="button" name="button">Google Search</button>
@@ -270,7 +312,6 @@ export default connect(
   }),
   handleSubmit:(values,{setSubmitting}) =>{
     console.log("you've submitted the form. this are the submitted values: ",JSON.stringify(values));
-    console.log()
-    // window.location.href = `${window.origin}/search?==${values.search}`;
+    window.location.href = `${window.origin}/search?search=${values.search}`;
   }
 })(Home));
