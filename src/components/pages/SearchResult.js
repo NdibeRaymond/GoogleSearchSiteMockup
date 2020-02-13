@@ -20,7 +20,7 @@ class SearchResult extends Component{
       SE:new SearchEngine(),
       query_result:[],
       suggestions: [],
-      suggestion_div:{},
+      suggestion_divs:[],
       main_input: {},
     }
   }
@@ -31,10 +31,11 @@ class SearchResult extends Component{
     this.defaultFocus();
     this.setState({
       query:this.props.location.search.split("=")[1],
-      suggestion_div: document.querySelector(".search_suggestions"),
+      suggestion_divs: document.querySelectorAll(".search_suggestions"),
       main_input: document.querySelector(".main__input")
     },()=>{
-      this.state.suggestion_div.classList.add("search_static");
+      console.log(this.state.suggestion_divs);
+      this.state.suggestion_divs.forEach(div=>{div.classList.add("search_static")});
       this.search(this.state.query)
     })
   }
@@ -55,9 +56,11 @@ class SearchResult extends Component{
       if(e.target !== this.state.main_input){
         document.querySelector(".search_div__div").classList.remove("boxshadow");
         document.querySelector(".main__input").blur();
-        this.state.suggestion_div.classList.remove("search_absolute");
-        this.state.suggestion_div.classList.add("search_static");
-        this.state.suggestion_div.setAttribute("id","");
+        this.state.suggestion_divs.forEach(div=>{
+          div.classList.remove("search_absolute");
+          div.classList.add("search_static");
+          div.setAttribute("id","");
+        })
 
         this.setState({
           suggestions:[]
@@ -83,9 +86,12 @@ class SearchResult extends Component{
 
     document.querySelector(".search_div__div").classList.remove("boxshadow");
     document.querySelector(".main__input").blur();
-    this.state.suggestion_div.classList.remove("search_absolute");
-    this.state.suggestion_div.classList.add("search_static");
-    this.state.suggestion_div.setAttribute("id","");
+
+    this.state.suggestion_divs.forEach(div=>{
+      div.classList.remove("search_absolute");
+      div.classList.add("search_static");
+      div.setAttribute("id","");
+    })
 
     this.setState({
       suggestions:[]
@@ -96,19 +102,18 @@ class SearchResult extends Component{
 
 
   suggestionUI=(result)=>{
-
+      this.state.suggestion_divs.forEach(div=>{
       if(result.length > 0){
         console.log("its greater than 1");
-        this.state.suggestion_div.classList.add("search_absolute");
-        this.state.suggestion_div.classList.remove("search_static");
-        // this.state.suggestion_div.setAttribute("id","suggestions");
+        div.classList.add("search_absolute");
+        div.classList.remove("search_static");
       }
       else{
         console.log("not greater than 1");
-        this.state.suggestion_div.classList.remove("search_absolute");
-        this.state.suggestion_div.classList.add("search_satic");
-        // this.state.suggestion_div.setAttribute("id","");
+        div.classList.remove("search_absolute");
+        div.classList.add("search_satic");
       }
+    })
 
   }
 
@@ -184,7 +189,7 @@ class SearchResult extends Component{
     <div className="search_result">
       <div className="wrapper_div">
         <header>
-           <nav className="nav">
+           <nav className="nav" id="nav-desktop">
              <div className="nav__div-left">
                <img className="main__img" src={small_logo} alt="google"/>
                <form className="search_div" id="form_desktop" name="search" noValidate="noValidate" onSubmit={this.props.handleSubmit} autocomplete="off">
@@ -212,28 +217,39 @@ class SearchResult extends Component{
                <a href="#" className="a a_2 dot_grid" arial-label="g suit"><i className="g_suit fa fa-th fa-lg" aria-hidden="true"></i> </a>
                <a href="#" className="a a_3"> <img src={raymond} className="profile" alt="profile"/>	</a>
              </div>
+           </nav>
 
-             {/*<form className="search_div" id="form_mobile" name="search" noValidate="noValidate" onSubmit={this.props.handleSubmit} autocomplete="off">
-              <div className="search_div__div">
-                <input type="text" className="main__input" name="search" value={this.props.values["search"]} onChange={this.suggestAndHandleChange}
-                  onBlur={this.props.handleBlur} aria-label="input your search term"/>
-                <img className="mic" src={mic} alt="speech input"/>
-                 <span className="search_icon">
-                  <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
-                  </svg>
-                </span>
-              </div>
+           <nav className="nav" id="nav-mobile">
+             <div className="nav__div-left">
+               <button className="btn" type="button" name="menu dropdown"><i className="fa fa-bars fa-lg" aria-hidden="true"></i></button>
+               <img className="main__img" src={small_logo} alt="google"/>
+               <a href="#" className="a a_3"> <img src={raymond} className="profile" alt="profile"/>	</a>
+             </div>
 
-              <div className="search_suggestions boxshadow">
-                {this.state.suggestions.splice(1,10).map((suggestion,key)=>
-                <div className="suggestion" key={key}>
-                <a className="search_suggestion" onClick={this.searchForSuggestion} href="#">{suggestion.title}</a>
-                </div>)}
-              </div>
-            </form>*/}
+             <div className="nav__div-right">
+                 <form className="search_div" id="form_desktop" name="search" noValidate="noValidate" onSubmit={this.props.handleSubmit} autocomplete="off">
+         					<div className="search_div__div">
+         						<input type="text" className="main__input" name="search" value={this.props.values["search"]} onChange={this.suggestAndHandleChange}
+                      onBlur={this.props.handleBlur} aria-label="input your search term"/>
+         						<img className="mic" src={mic} alt="speech input"/>
+                     <span className="search_icon">
+         							<svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+         								<path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+         							</svg>
+         						</span>
+         					</div>
+
+                  <div className="search_suggestions boxshadow">
+                    {this.state.suggestions.splice(1,10).map((suggestion,key)=>
+                    <div className="suggestion" key={key}>
+                    <a className="search_suggestion" onClick={this.searchForSuggestion} href="#">{suggestion.title}</a>
+                    </div>)}
+                  </div>
+         				</form>
+             </div>
 
            </nav>
+
            <nav className="nav_2">
              <a className="a_1 all_button" href="#">
                <span className="search_icon" style={{height:"16px",width:"16px"}}>
