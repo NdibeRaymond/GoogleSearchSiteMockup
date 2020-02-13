@@ -279,8 +279,9 @@ class SearchResult extends Component{
                <h2>Lorem Ipsum</h2>
 
                <div className="divider">
-               <span>o</span>
+               <span><i class="fa fa-globe fa-2x" aria-hidden="true"></i></span>
                <a href="#">Lorem Ipsum</a>
+               <i class="fa fa-share-alt fa-2x" aria-hidden="true"></i>
                </div>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -313,6 +314,7 @@ class SearchResult extends Component{
            </section>
 
            <section className="pagination">
+           <div className="pagination__div">
              <a href="#">1</a>
              <a href="#">2</a>
              <a href="#">3</a>
@@ -324,6 +326,7 @@ class SearchResult extends Component{
              <a href="#">9</a>
              <a href="#">10</a>
              <a className="next" href="#">Next</a>
+             </div>
            </section>
          </main>
 
