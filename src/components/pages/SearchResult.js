@@ -18,19 +18,57 @@ class SearchResult extends Component{
     super(props);
     this.state={
       SE:new SearchEngine(),
-      query_result:[]
+      query_result:[],
+      suggestions: [],
+      suggestion_div:{},
+      main_input: {},
     }
   }
 
   componentDidMount(){
+    this.mainInputBlurDetect();
+    this.inputFocusDetect();
     this.defaultFocus();
-    this.setState({query:this.props.location.search.split("=")[1]},()=>{
+    this.setState({
+      query:this.props.location.search.split("=")[1],
+      suggestion_div: document.querySelector(".search_suggestions"),
+      main_input: document.querySelector(".main__input")
+    },()=>{
+      this.state.suggestion_div.classList.add("search_static");
       this.search(this.state.query)
     })
   }
 
   defaultFocus=()=>{
     document.querySelector(".all_button").focus()
+  }
+
+  mainInputBlurDetect=()=>{
+    document.addEventListener("click",(e)=>{
+      console.log(e.target.href);
+      if(e.target.href){
+        if(e.target.href !== `${window.origin}/#`){
+          return
+        }
+      }
+
+      if(e.target !== this.state.main_input){
+        document.querySelector(".search_div__div").classList.remove("boxshadow");
+        document.querySelector(".main__input").blur();
+        this.state.suggestion_div.classList.remove("search_absolute");
+        this.state.suggestion_div.classList.add("search_static");
+        this.state.suggestion_div.setAttribute("id","");
+
+        this.setState({
+          suggestions:[]
+        })
+      }
+
+    })
+  }
+
+  searchForSuggestion=(e)=>{
+    window.location = `${window.origin}/search?search=${e.target.innerHTML.split("").splice(0,5).join("")}`
   }
 
   search=(query)=>{
@@ -45,8 +83,8 @@ class SearchResult extends Component{
 
     document.querySelector(".search_div__div").classList.remove("boxshadow");
     document.querySelector(".main__input").blur();
-    this.state.suggestion_div.classList.remove("absolute");
-    this.state.suggestion_div.classList.add("static");
+    this.state.suggestion_div.classList.remove("search_absolute");
+    this.state.suggestion_div.classList.add("search_static");
     this.state.suggestion_div.setAttribute("id","");
 
     this.setState({
@@ -54,6 +92,24 @@ class SearchResult extends Component{
     })
 
     this.props.handleBlur(e)
+  }
+
+
+  suggestionUI=(result)=>{
+
+      if(result.length > 0){
+        console.log("its greater than 1");
+        this.state.suggestion_div.classList.add("search_absolute");
+        this.state.suggestion_div.classList.remove("search_static");
+        // this.state.suggestion_div.setAttribute("id","suggestions");
+      }
+      else{
+        console.log("not greater than 1");
+        this.state.suggestion_div.classList.remove("search_absolute");
+        this.state.suggestion_div.classList.add("search_satic");
+        // this.state.suggestion_div.setAttribute("id","");
+      }
+
   }
 
   suggestAndHandleChange=(e)=>{
@@ -71,7 +127,7 @@ class SearchResult extends Component{
    this.setState({
      suggestions
    },()=>{
-     console.log(this.state.suggestions);
+     // console.log(this.state.suggestions);
      this.suggestionUI(this.state.suggestions)
    })
   }
@@ -96,6 +152,33 @@ class SearchResult extends Component{
             </div>)
 
 
+            inputFocusDetect=()=>{
+
+              let wrapperDiv = document.querySelector(".search_div__div");
+              let input  = document.querySelector(".main__input");
+
+              function addBoxShadow(e){
+                wrapperDiv.classList.add("boxshadow");
+              }
+
+              function removeBoxShadow(e){
+                wrapperDiv.classList.remove("boxshadow");
+              }
+
+              input.addEventListener("mouseover",addBoxShadow,false);
+
+              input.addEventListener("mouseout",function(e){
+                if(document.activeElement !== input){
+                removeBoxShadow(e)
+              }
+              },false);
+
+              input.addEventListener("focus",addBoxShadow,false)
+
+              input.addEventListener("onblur",removeBoxShadow,false);
+            }
+
+
   render(){
     return (
     <div className="search_result">
@@ -104,9 +187,9 @@ class SearchResult extends Component{
            <nav className="nav">
              <div className="nav__div-left">
                <img className="main__img" src={small_logo} alt="google"/>
-               <form className="search_div" name="search" noValidate="noValidate" onSubmit={this.props.handleSubmit} autocomplete="off">
+               <form className="search_div" id="form_desktop" name="search" noValidate="noValidate" onSubmit={this.props.handleSubmit} autocomplete="off">
        					<div className="search_div__div">
-       						<input type="text" className="main__input" name="search" value={this.props.values["search"]} onChange={this.props.handleChange}
+       						<input type="text" className="main__input" name="search" value={this.props.values["search"]} onChange={this.suggestAndHandleChange}
                     onBlur={this.props.handleBlur} aria-label="input your search term"/>
        						<img className="mic" src={mic} alt="speech input"/>
                    <span className="search_icon">
@@ -115,13 +198,40 @@ class SearchResult extends Component{
        							</svg>
        						</span>
        					</div>
+
+                <div className="search_suggestions boxshadow">
+                  {this.state.suggestions.splice(1,10).map((suggestion,key)=>
+                  <div className="suggestion" key={key}>
+                  <a className="search_suggestion" onClick={this.searchForSuggestion} href="#">{suggestion.title}</a>
+                  </div>)}
+                </div>
        				</form>
              </div>
 
              <div className="nav__div-right">
-               <a href="#" className="a a_2" arial-label="g suit"><i className="g_suit fa fa-th fa-lg" aria-hidden="true"></i> </a>
+               <a href="#" className="a a_2 dot_grid" arial-label="g suit"><i className="g_suit fa fa-th fa-lg" aria-hidden="true"></i> </a>
                <a href="#" className="a a_3"> <img src={raymond} className="profile" alt="profile"/>	</a>
              </div>
+
+             {/*<form className="search_div" id="form_mobile" name="search" noValidate="noValidate" onSubmit={this.props.handleSubmit} autocomplete="off">
+              <div className="search_div__div">
+                <input type="text" className="main__input" name="search" value={this.props.values["search"]} onChange={this.suggestAndHandleChange}
+                  onBlur={this.props.handleBlur} aria-label="input your search term"/>
+                <img className="mic" src={mic} alt="speech input"/>
+                 <span className="search_icon">
+                  <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                  </svg>
+                </span>
+              </div>
+
+              <div className="search_suggestions boxshadow">
+                {this.state.suggestions.splice(1,10).map((suggestion,key)=>
+                <div className="suggestion" key={key}>
+                <a className="search_suggestion" onClick={this.searchForSuggestion} href="#">{suggestion.title}</a>
+                </div>)}
+              </div>
+            </form>*/}
 
            </nav>
            <nav className="nav_2">
@@ -135,13 +245,13 @@ class SearchResult extends Component{
                    </path>
                  </svg>
                </span>All</a>
-             <a className="a_2" href="#"> <i className="fa fa-picture-o" aria-hidden="true"></i>Images </a>
-             <a className="a_3" href="#"> <i className="fa fa-newspaper-o" aria-hidden="true"></i>News </a>
-             <a className="a_4" href="#"><i className="fa fa-caret-square-o-right" aria-hidden="true"></i>Videos</a>
-             <a className="a_5" href="#"><i className="fa fa-map-marker" aria-hidden="true"></i>Maps</a>
-             <a className="a_6" href="#"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>More</a>
-             <a className="a_7" href="#">Settings</a>
-             <a className="a_8" href="#">Tools</a>
+             <a className="a_2 images" href="#"> <i className="fa fa-picture-o" aria-hidden="true"></i>Images </a>
+             <a className="a_3 news" href="#"> <i className="fa fa-newspaper-o" aria-hidden="true"></i>News </a>
+             <a className="a_4 videos" href="#"><i className="fa fa-caret-square-o-right" aria-hidden="true"></i>Videos</a>
+             <a className="a_5 maps" href="#"><i className="fa fa-map-marker" aria-hidden="true"></i>Maps</a>
+             <a className="a_6 more" href="#"><i className="fa fa-ellipsis-v" aria-hidden="true"></i>More</a>
+             <a className="a_7 settings" href="#">Settings</a>
+             <a className="a_8 tools" href="#">Tools</a>
            </nav>
          </header>
          <main>
