@@ -31,10 +31,19 @@ html,body {
 
 .absolute {
   position: absolute;
-  text-align: center;
-  width: 100%;
-  z-index: 5;
+  /* text-align: center; */
+  width: 51.2%;
+  max-width: 655px;
+  left: 50%;
   background-color: white;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  -webkit-box-shadow: 1px 1px 9px 2px rgba(204,204,204,1);
+  -moz-box-shadow: 1px 1px 9px 2px rgba(204,204,204,1);
+  box-shadow: 1px 1px 9px 2px rgba(204,204,204,1);
+  z-index: 5;
 }
 
 /* ################################################################## */
@@ -144,6 +153,13 @@ main {
   justify-content: space-between;
 }
 
+.search_div .search_div__div.suggestion_collapsed {
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
 .main__input {
   outline: none;
   border-width: 0;
@@ -177,7 +193,31 @@ main {
   margin-right: 10px;
 }
 
+.suggestions {
+
+}
+
+.suggestion {
+  display: flex;
+  justify-content:space-between;
+  align-items: center;
+}
+
+.suggestion span.search_suggestion-remove {
+  padding-right: 1em;
+  color: grey;
+}
+
+.suggestion span .search_suggestion-remove-icon {
+  display: none;
+}
+
+.suggestion span .search_suggestion-remove-word {
+  display: inline-block;
+}
+
 .suggestion a {
+ margin-left: 1em;
  text-decoration: none;
  font-size: 1rem;
  line-height: 1.5em;
@@ -350,17 +390,13 @@ footer {
      width: 100%;
     }
 
-   .suggestion {
-
-   }
-
    .main__section1__div-2.desktop {
     display: none;
    }
 
 
   .main__section1__div-2.mobile{
-    margin-top: 2rem;
+    padding-top: 2rem;
     display:flex;
   }
 
@@ -381,12 +417,26 @@ footer {
   width: 70%;
 }
 
+.absolute {
+  width: 70%;
+}
+
 }
 
 @media only screen and (max-width: 500px){
   .footer-bottom {
     flex-direction: column-reverse;
     align-items: center;
+  }
+}
+
+@media only screen and (max-width: 376px){
+  .suggestion span .search_suggestion-remove-icon {
+    display: inline-block;
+  }
+
+  .suggestion span .search_suggestion-remove-word {
+    display: none;
   }
 }
 
@@ -397,12 +447,20 @@ footer {
   width: 90%;
 }
 
+.absolute {
+  width: 90%;
+}
+
 }
 
 
 @media only screen and (max-width: 360px) {
 
 .search_div .search_div__div {
+  width: 90%;
+}
+
+.absolute {
   width: 90%;
 }
 

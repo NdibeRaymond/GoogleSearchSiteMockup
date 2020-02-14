@@ -63,22 +63,36 @@ class Home extends Component {
   mainInputBlurDetect=()=>{
     document.addEventListener("click",(e)=>{
       console.log(e.target.href);
+      console.log(this.state.suggestions);
+      console.log(e.target !== this.state.main_input
+        && e.target.getAttribute("to_romove") === undefined
+        && e.target.getAttribute("to_romove") === null);
+
+        console.log(e.target.getAttribute("to_romove") !== undefined
+        && e.target.getAttribute("to_romove") !== null);
       if(e.target.href){
         if(e.target.href !== `${window.origin}/#`){
           return
         }
       }
 
-      if(e.target !== this.state.main_input){
+      if(e.target !== this.state.main_input
+        && e.target.getAttribute("to_romove") === undefined
+        && e.target.getAttribute("to_romove") === null){
         document.querySelector(".search_div__div").classList.remove("boxshadow");
         document.querySelector(".main__input").blur();
         this.state.suggestion_div.classList.remove("absolute");
+        document.querySelector(".search_div__div").classList.remove("suggestion_collapsed");
         this.state.suggestion_div.classList.add("static");
-        this.state.suggestion_div.setAttribute("id","");
-
         this.setState({
           suggestions:[]
         })
+      }
+      else{
+        if(e.target.getAttribute("to_romove") !== undefined
+        && e.target.getAttribute("to_romove") !== null){
+          this.removeSuggestion(e.target.getAttribute("to_romove"))
+        }
       }
 
     })
@@ -88,6 +102,16 @@ class Home extends Component {
 
   searchForSuggestion=(e)=>{
     window.location = `${window.origin}/search?search=${e.target.innerHTML.split("").splice(0,5).join("")}`
+  }
+
+  removeSuggestion=(value)=>{
+    // console.log(value,this.state.suggestions);
+    // let new_suggestions = this.state.suggestions.filter(suggestion=>suggestion !== value);
+    // console.log(new_suggestions);
+    // this.setState({suggestions:new_suggestions},()=>{
+    //   console.log(this.state.suggestions.length);
+    //   this.suggestionUI(this.state.suggestions)
+    // });
   }
 
   // cleanUpAndHandleBlur=(e)=>{
@@ -111,32 +135,32 @@ class Home extends Component {
       if(result.length > 0){
         console.log("its greater than 1");
         this.state.suggestion_div.classList.add("absolute");
+        document.querySelector(".search_div__div").classList.add("suggestion_collapsed");
         this.state.suggestion_div.classList.remove("static");
-        this.state.suggestion_div.setAttribute("id","suggestions");
       }
       else{
         console.log("not greater than 1");
         this.state.suggestion_div.classList.remove("absolute");
-        this.state.suggestion_div.classList.add("satic");
-        this.state.suggestion_div.setAttribute("id","");
+        document.querySelector(".search_div__div").classList.remove("suggestion_collapsed");
+        this.state.suggestion_div.classList.add("static");
       }
 
   }
 
   suggestAndHandleChange=(e)=>{
     console.log(e.target.value);
-    let results = [];
     if(e.target.value.length >= 5){
-      results = this.suggest(e.target.value);
+      this.suggest(e.target.value);
     }
     this.props.handleChange(e);
   }
 
   suggest=(value)=>{
-   let suggestions  = this.state.SE.textSearch(this.props.data.all_data,value,["url","title","body"],true);
+   let suggestions  = this.state.SE.textSearch(this.props.data.all_data,value,["url","title","body"],true).splice(0,10);
+   console.log(suggestions);
 
    this.setState({
-     suggestions
+     suggestions:suggestions
    },()=>{
      console.log(this.state.suggestions);
      this.suggestionUI(this.state.suggestions)
@@ -208,9 +232,12 @@ render(){
 
       <div className="main__section1">
         <div className="suggestions">
-          {this.state.suggestions.splice(1,10).map((suggestion,key)=>
+          {this.state.suggestions.splice(0,9).map((suggestion,key)=>
           <div className="suggestion" key={key}>
           <a className="search_suggestion" onClick={this.searchForSuggestion} href="#">{suggestion.title}</a>
+          <span className="search_suggestion-remove">
+            <i className="search_suggestion-remove-icon">X</i>
+            <span className="search_suggestion-remove-word" to_romove={suggestion.title}>Remove</span></span>
           </div>)}
 
         <div className="button__div">

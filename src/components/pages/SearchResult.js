@@ -130,7 +130,7 @@ class SearchResult extends Component{
       else{
         console.log("not greater than 1");
         div.classList.remove("search_absolute");
-        div.classList.add("search_satic");
+        div.classList.add("search_static");
       }
     })
 
@@ -151,7 +151,7 @@ class SearchResult extends Component{
    this.setState({
      suggestions
    },()=>{
-     // console.log(this.state.suggestions);
+     console.log(this.state.suggestions);
      this.suggestionUI(this.state.suggestions)
    })
   }
@@ -224,7 +224,7 @@ class SearchResult extends Component{
        					</div>
 
                 <div className="search_suggestions boxshadow">
-                  {this.state.suggestions.splice(1,10).map((suggestion,key)=>
+                  {this.state.suggestions.splice(0,10).map((suggestion,key)=>
                   <div className="suggestion" key={key}>
                   <a className="search_suggestion" onClick={this.searchForSuggestion} href="#">{suggestion.title}</a>
                   </div>)}
