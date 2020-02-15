@@ -31,7 +31,8 @@ html,body {
 
 .absolute {
   position: absolute;
-  /* text-align: center; */
+  padding-top: 1em;
+  padding-bottom:1em;
   width: 51.2%;
   max-width: 655px;
   left: 50%;
@@ -201,6 +202,11 @@ main {
   display: flex;
   justify-content:space-between;
   align-items: center;
+}
+
+.suggestion-history-icon {
+  color: grey;
+  padding-left: 1em;
 }
 
 .suggestion span.search_suggestion-remove {

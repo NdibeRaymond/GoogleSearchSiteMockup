@@ -234,9 +234,12 @@ render(){
         <div className="suggestions">
           {this.state.suggestions.splice(0,9).map((suggestion,key)=>
           <div className="suggestion" key={key}>
-          <a className="search_suggestion" onClick={this.searchForSuggestion} href="#">{suggestion.title}</a>
+          <div>
+            <i className="suggestion-history-icon fa fa-history" aria-hidden="true"></i>
+            <a className="search_suggestion" onClick={this.searchForSuggestion} href="#">{suggestion.title}</a>
+          </div>
           <span className="search_suggestion-remove">
-            <i className="search_suggestion-remove-icon">X</i>
+            <i className="search_suggestion-remove-icon fa fa-times" aria-hidden="true"></i>
             <span className="search_suggestion-remove-word" to_romove={suggestion.title}>Remove</span></span>
           </div>)}
 
