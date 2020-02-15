@@ -210,7 +210,7 @@ class SearchResult extends Component{
         <header className="header">
            <nav className="nav" id="nav-desktop">
              <div className="nav__div-left">
-               <img className="main__img" src={small_logo} alt="google"/>
+               <a href="/"><img className="main__img" src={small_logo} alt="google"/></a>
                <form className="search_div" id="form_desktop" name="search" noValidate="noValidate" onSubmit={this.props.handleSubmit} autocomplete="off">
        					<div className="search_div__div">
        						<input type="text" className="main__input" name="search" value={this.props.values["search"]} onChange={this.suggestAndHandleChange}
@@ -241,7 +241,7 @@ class SearchResult extends Component{
            <nav className="nav" id="nav-mobile">
              <div className="nav__div-left">
                <button className="btn" type="button" name="menu dropdown"><i className="fa fa-bars fa-lg" aria-hidden="true"></i></button>
-               <img className="main__img" src={small_logo} alt="google"/>
+               <a href="/"><img className="main__img" src={small_logo} alt="google"/></a>
                <a href="#" className="a a_3"> <img src={raymond} className="profile" alt="profile"/>	</a>
              </div>
 
