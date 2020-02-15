@@ -19,6 +19,7 @@ class Home extends Component {
     this.state={
       SE: new SearchEngine(),
       suggestions: [],
+      search_div__div:{},
       suggestion_div: {},
       main_input:{}
     }
@@ -43,15 +44,14 @@ class Home extends Component {
   }
 
   componentDidMount(){
-    this.inputFocusDetect();
-    // this.suggestionUI();
-    this.mainInputBlurDetect();
     this.setState(
-      {
+      { search_div__div: document.querySelector(".search_div__div"),
         suggestion_div: document.querySelector(".suggestions"),
         main_input: document.querySelector(".main__input")
       },()=>{
         this.autoFocus(this.state.main_input);
+        this.inputFocusDetect();
+        this.mainInputBlurDetect();
       }
     )
   }
@@ -77,12 +77,12 @@ class Home extends Component {
       }
 
       if(e.target !== this.state.main_input
-        && e.target.getAttribute("to_romove") === undefined
-        && e.target.getAttribute("to_romove") === null){
-        document.querySelector(".search_div__div").classList.remove("boxshadow");
+        && (e.target.getAttribute("to_romove") === undefined
+        || e.target.getAttribute("to_romove") === null)){
+        this.state.search_div__div.classList.remove("boxshadow");
         document.querySelector(".main__input").blur();
         this.state.suggestion_div.classList.remove("absolute");
-        document.querySelector(".search_div__div").classList.remove("suggestion_collapsed");
+        this.state.search_div__div.classList.remove("suggestion_collapsed");
         this.state.suggestion_div.classList.add("static");
         this.setState({
           suggestions:[]
@@ -135,13 +135,13 @@ class Home extends Component {
       if(result.length > 0){
         console.log("its greater than 1");
         this.state.suggestion_div.classList.add("absolute");
-        document.querySelector(".search_div__div").classList.add("suggestion_collapsed");
+          this.state.search_div__div.classList.add("suggestion_collapsed");
         this.state.suggestion_div.classList.remove("static");
       }
       else{
         console.log("not greater than 1");
         this.state.suggestion_div.classList.remove("absolute");
-        document.querySelector(".search_div__div").classList.remove("suggestion_collapsed");
+          this.state.search_div__div.classList.remove("suggestion_collapsed");
         this.state.suggestion_div.classList.add("static");
       }
 
